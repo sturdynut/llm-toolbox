@@ -1,0 +1,29 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "llm-toolbox",
+  "description": "Matti Salokangas' personal Claude Code toolbox — writing, UI, and harness plugins, plus MCP servers.",
+  "owner": {
+    "name": "Matti Salokangas",
+    "email": "matti.salokangas@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "writing",
+      "description": "Drafting, proofreading, and adversarial review for blog posts and long-form technical writing.",
+      "source": "./plugins/writing",
+      "category": "productivity"
+    },
+    {
+      "name": "ui",
+      "description": "UI, UX, and front-end design work.",
+      "source": "./plugins/ui",
+      "category": "design"
+    },
+    {
+      "name": "harness",
+      "description": "Tunes how Claude Code itself runs — context-window drift detection, cost control, session hygiene.",
+      "source": "./plugins/harness",
+      "category": "development"
+    }
+  ]
+}

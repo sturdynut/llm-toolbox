@@ -1,0 +1,27 @@
+{
+  "description": "Two cost sensors. context-guard (UserPromptSubmit): estimates context-window fill, detects edit/error loops, and — in a narrow band, throttled — runs a cheap Haiku check for topic drift, suggesting /compact or a fresh session. session-weight (SessionStart): measures the static baseline every session pays for (CLAUDE.md chain, @-imports, skill/agent descriptions) and names the heaviest file. Both emit a systemMessage and never block.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/session-weight.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/context-guard.mjs\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

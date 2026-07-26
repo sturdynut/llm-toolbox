@@ -1,0 +1,9 @@
+{
+  "name": "harness",
+  "description": "Tunes how Claude Code itself runs — context-window drift detection, cost control, session hygiene.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Matti Salokangas",
+    "email": "matti.salokangas@gmail.com"
+  }
+}

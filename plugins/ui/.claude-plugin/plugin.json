@@ -1,0 +1,9 @@
+{
+  "name": "ui",
+  "description": "UI, UX, and front-end design work.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Matti Salokangas",
+    "email": "matti.salokangas@gmail.com"
+  }
+}
