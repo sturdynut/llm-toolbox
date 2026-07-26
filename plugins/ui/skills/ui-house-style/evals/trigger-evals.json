@@ -1,0 +1,22 @@
+[
+  {"query": "ok honest question — does my app look AI generated? it's a next.js thing in ~/projects/leadflow, i vibe-coded the frontend and something feels off but i can't put my finger on it", "should_trigger": true},
+  {"query": "my analytics dashboard looks like every other saas out there — same blue, same cards, same everything. i want it to feel more like Linear or Stripe. it's in apps/web", "should_trigger": true},
+  {"query": "can you deslop this ui? repo's here, the whole /dashboard route especially", "should_trigger": true},
+  {"query": "the frontend works fine but it screams 'built by an LLM' lol. can you give it some actual personality / a point of view", "should_trigger": true},
+  {"query": "review the design of my react app — it's running on localhost:5173. tell me what's generic and how to fix it", "should_trigger": true},
+  {"query": "we need a house style doc for our internal admin tool before the team ships more inconsistent screens. look at the existing pages and write one", "should_trigger": true},
+  {"query": "our ops console is wall-to-wall cards and giant padding, the analysts hate scrolling. make it denser and more keyboard-friendly for people who live in it all day", "should_trigger": true},
+  {"query": "here are 4 screenshots of my app. what makes it look template-y and what would you change?", "should_trigger": true},
+  {"query": "everything is a rounded card with a drop shadow and it all blurs together. how do i actually establish hierarchy here?", "should_trigger": true},
+  {"query": "i generated this whole marketing site with v0 and now it looks exactly like the 500 other v0 sites. help me make it not look generated", "should_trigger": true},
+  {"query": "does this code look like it was written by AI? my professor runs an AI-detector on submissions and i'm worried about my python assignment", "should_trigger": false},
+  {"query": "can you review my PR? #482, mostly backend auth-service changes", "should_trigger": false},
+  {"query": "build me a brand-new landing page from scratch for my dog-walking startup, i have nothing yet", "should_trigger": false},
+  {"query": "my tailwind isn't compiling, classes aren't applying in the prod build. vite + tailwind v4", "should_trigger": false},
+  {"query": "run an accessibility audit on our checkout flow — need WCAG 2.1 AA for a contract, mainly contrast ratios + screen readers", "should_trigger": false},
+  {"query": "design a postgres schema for a multi-tenant crm", "should_trigger": false},
+  {"query": "write the copy for our pricing page — three tiers, punchy headlines", "should_trigger": false},
+  {"query": "create a logo and pick brand colors for my coffee roastery", "should_trigger": false},
+  {"query": "make my matplotlib charts look less default / more polished for the paper", "should_trigger": false},
+  {"query": "my react app re-renders too much and feels laggy, profile and fix the perf", "should_trigger": false}
+]
