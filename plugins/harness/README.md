@@ -32,10 +32,15 @@ Set in `~/.claude/settings.json` under `env`, or in the shell.
 | `CONTEXT_GUARD_SEMANTIC` | on | `0` disables the drift layer |
 | `CONTEXT_GUARD_SEM_FLOOR` | `0.40` | floor for drift checks |
 | `CONTEXT_GUARD_SEM_EVERY` | `4` | run a drift check every Nth qualifying prompt |
-| `CONTEXT_GUARD_PROVIDER` | `claude` | `claude`, `ollama`, or `codex` |
+| `CONTEXT_GUARD_DRIFT_WARN` | `60` | drift score (0–100) at or above which drift is reported |
+| `CONTEXT_GUARD_PROVIDER` | `claude` | `claude`, `ollama`, `codex`, or `cursor` |
 | `CONTEXT_GUARD_MODEL` | per-provider | model for the drift check |
 | `CONTEXT_GUARD_CMD` | — | custom command; overrides `PROVIDER` |
 | `CONTEXT_GUARD_TIMEOUT` | `8000` | ms budget for the drift call |
+
+A threshold set to `0` is honored — `CONTEXT_GUARD_WARN=0` warns on every prompt. The two
+exceptions are `WINDOW` and `TIMEOUT`, where a non-positive value is meaningless rather
+than extreme, so it falls back to the default instead.
 
 ## Drift-check providers
 
@@ -153,7 +158,9 @@ Measures, and attributes per file:
   `CLAUDE.local.md` from cwd up to `$HOME`
 - **`@`-imports** inside those files, followed recursively and marked `(@import)`. This is
   the usual hiding place: a 3-line `CLAUDE.md` that pulls in a 9k-token reference doc.
-- **skill and agent descriptions** in `~/.claude` and `<project>/.claude`. Only YAML
+- **skill and agent descriptions** in `~/.claude`, plus every `.claude` from cwd up to
+  `$HOME` — the same ancestry as the memory chain, so starting a session in a
+  subdirectory doesn't hide the project's own definitions. Only YAML
   frontmatter is counted, because only frontmatter is loaded up front — a 75KB `SKILL.md`
   with a tight description is cheap; a short one with a rambling description is not. That
   is the opposite of most people's intuition, so the hook counts what actually loads.
@@ -181,6 +188,9 @@ change (or `SESSION_WEIGHT_QUIET_H` elapses).
 | `SESSION_WEIGHT_FILE` | `4000` | flag any single file above this |
 | `SESSION_WEIGHT_QUIET_H` | `24` | hours to stay quiet after warning |
 
+`0` is honored here too: `SESSION_WEIGHT_WARN=0` reports the baseline on every fresh
+session, and `SESSION_WEIGHT_QUIET_H=0` disables the quiet period.
+
 ## Status line
 
 `statusline/statusline.py` renders the status line, including a context-fill meter and a
@@ -190,6 +200,12 @@ hardcoded directory:
 ```
 /tmp/claude-context-guard
 ```
+
+Each session leaves a `<sid>.json` (the hook's throttle state) and a `<sid>.ctx.json` (the
+true window, written by the status line). `context-guard.mjs` sweeps entries older than 7
+days on the first prompt of a new session — the one moment it already knows is new, so the
+cost is one `readdir` per session rather than per prompt. `session-weight.json` is exempt;
+outliving sessions is its job.
 
 `GUARD_DIR` is duplicated as a literal in each file and must stay in sync. It is hardcoded
 to `/tmp` rather than `os.tmpdir()` because on macOS `os.tmpdir()` resolves to `$TMPDIR`,

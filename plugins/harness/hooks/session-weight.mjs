@@ -43,10 +43,20 @@ import { homedir } from "node:os";
 // os.tmpdir()) because on macOS os.tmpdir() is $TMPDIR, not /tmp.
 const GUARD_DIR = "/tmp/claude-context-guard";
 
+// `Number(x) || default` swallows a deliberate 0, so the thresholds could never be
+// set to always-warn and QUIET_H could never be set to never-quiet. Fall back only
+// when the variable is genuinely unset or unparseable.
+function envNum(name, fallback) {
+  const raw = process.env[name];
+  if (raw === undefined || raw.trim() === "") return fallback;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : fallback;
+}
+
 const OFF = process.env.SESSION_WEIGHT_OFF === "1";
-const WARN = Number(process.env.SESSION_WEIGHT_WARN) || 10000;
-const FILE_WARN = Number(process.env.SESSION_WEIGHT_FILE) || 4000;
-const QUIET_H = Number(process.env.SESSION_WEIGHT_QUIET_H) || 24;
+const WARN = envNum("SESSION_WEIGHT_WARN", 10000);
+const FILE_WARN = envNum("SESSION_WEIGHT_FILE", 4000);
+const QUIET_H = envNum("SESSION_WEIGHT_QUIET_H", 24);
 
 const HOME = homedir();
 const MAX_IMPORT_DEPTH = 5;
@@ -81,6 +91,19 @@ const short = (path) => (path.startsWith(HOME) ? `~${path.slice(HOME.length)}` :
 
 // --- CLAUDE.md discovery -----------------------------------------------------
 
+// cwd and every ancestor up to $HOME, outermost first. The chain Claude Code walks
+// for CLAUDE.md, and the same chain a project's `.claude/` can appear anywhere in.
+function ancestorDirs(cwd) {
+  const dirs = [];
+  let dir = resolve(cwd);
+  for (let i = 0; i < 30; i++) {
+    dirs.push(dir);
+    if (dir === HOME || dir === dirname(dir)) break;
+    dir = dirname(dir);
+  }
+  return dirs.reverse();
+}
+
 // Every CLAUDE.md / CLAUDE.local.md from cwd up to $HOME, nearest last, plus the
 // user-level one. Mirrors how Claude Code assembles the chain.
 function memoryChain(cwd) {
@@ -97,14 +120,7 @@ function memoryChain(cwd) {
 
   add(join(HOME, ".claude", "CLAUDE.md"));
 
-  const dirs = [];
-  let dir = resolve(cwd);
-  for (let i = 0; i < 30; i++) {
-    dirs.push(dir);
-    if (dir === HOME || dir === dirname(dir)) break;
-    dir = dirname(dir);
-  }
-  for (const d of dirs.reverse()) {
+  for (const d of ancestorDirs(cwd)) {
     add(join(d, "CLAUDE.md"));
     add(join(d, "CLAUDE.local.md"));
   }
@@ -224,12 +240,20 @@ function main() {
   const cwd = input?.cwd || process.cwd();
 
   const memory = collectMemory(cwd);
-  const defs = [
-    collectDefs(HOME, "skill"),
-    collectDefs(HOME, "agent"),
-    collectDefs(cwd, "skill"),
-    collectDefs(cwd, "agent"),
-  ].filter(Boolean);
+
+  // Walk the same ancestry as the memory chain rather than checking only cwd:
+  // starting a session in a subdirectory used to hide the project's own skill and
+  // agent descriptions, which are exactly the ones the user can go trim.
+  const defs = [];
+  const seenRoots = new Set();
+  for (const root of [HOME, ...ancestorDirs(cwd)]) {
+    if (seenRoots.has(root)) continue;
+    seenRoots.add(root);
+    for (const kind of ["skill", "agent"]) {
+      const d = collectDefs(root, kind);
+      if (d) defs.push(d);
+    }
+  }
 
   const memTokens = memory.reduce((a, e) => a + e.tokens, 0);
   const defTokens = defs.reduce((a, d) => a + d.tokens, 0);

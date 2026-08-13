@@ -24,6 +24,8 @@
 //   CONTEXT_GUARD_SEM_FLOOR floor for drift checks       (default 0.40)
 //   CONTEXT_GUARD_SEM_EVERY run drift check every Nth    (default 4)
 //                           qualifying prompt
+//   CONTEXT_GUARD_DRIFT_WARN score at/above which drift   (default 60)
+//                           is reported, 0-100
 //   CONTEXT_GUARD_PROVIDER  claude|ollama|codex|cursor  (default claude)
 //   CONTEXT_GUARD_MODEL     model for the drift check    (per-provider default)
 //   CONTEXT_GUARD_CMD       custom command; prompt on    (overrides PROVIDER)
@@ -31,7 +33,15 @@
 //   CONTEXT_GUARD_TIMEOUT   ms for the drift call        (default 8000)
 //   CONTEXT_GUARD_OFF       "1" disables the whole hook
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync, unlinkSync } from "node:fs";
+import {
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  existsSync,
+  unlinkSync,
+  readdirSync,
+  statSync,
+} from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 
@@ -39,14 +49,34 @@ import { join } from "node:path";
 // /tmp (not os.tmpdir()) because on macOS os.tmpdir() is $TMPDIR, not /tmp.
 const GUARD_DIR = "/tmp/claude-context-guard";
 
+// `Number(x) || default` swallows a deliberate 0, so a threshold could never be
+// pinned to always-on — CONTEXT_GUARD_WARN=0 silently became 0.65. Fall back only
+// when the variable is genuinely unset or unparseable.
+function envNum(name, fallback) {
+  const raw = process.env[name];
+  if (raw === undefined || raw.trim() === "") return fallback;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+// For the two values where 0 is not a meaningful setting, just a broken one — a
+// zero window makes every pct absurd, a zero timeout kills every drift call before
+// it starts. Treat non-positive as unset rather than clamping into nonsense.
+function envPos(name, fallback) {
+  const n = envNum(name, fallback);
+  return n > 0 ? n : fallback;
+}
+
 const OFF = process.env.CONTEXT_GUARD_OFF === "1";
-const WINDOW = Number(process.env.CONTEXT_GUARD_WINDOW) || 200000;
-const WARN = Number(process.env.CONTEXT_GUARD_WARN) || 0.65;
-const HARD = Number(process.env.CONTEXT_GUARD_HARD) || 0.8;
+const WINDOW = envPos("CONTEXT_GUARD_WINDOW", 200000);
+const WARN = envNum("CONTEXT_GUARD_WARN", 0.65);
+const HARD = envNum("CONTEXT_GUARD_HARD", 0.8);
 const SEMANTIC = process.env.CONTEXT_GUARD_SEMANTIC !== "0";
-const SEM_FLOOR = Number(process.env.CONTEXT_GUARD_SEM_FLOOR) || 0.4;
-const SEM_EVERY = Number(process.env.CONTEXT_GUARD_SEM_EVERY) || 4;
-const DRIFT_WARN = Number(process.env.CONTEXT_GUARD_DRIFT_WARN) || 60;
+const SEM_FLOOR = envNum("CONTEXT_GUARD_SEM_FLOOR", 0.4);
+// Guarded >= 1: `count % 0` is NaN, which would disable the drift layer through a
+// value that reads like "every prompt". Use CONTEXT_GUARD_SEMANTIC=0 to disable.
+const SEM_EVERY = Math.max(1, Math.floor(envNum("CONTEXT_GUARD_SEM_EVERY", 4)));
+const DRIFT_WARN = envNum("CONTEXT_GUARD_DRIFT_WARN", 60);
 
 // --- Drift-check provider ----------------------------------------------------
 // The drift check is the only part of this hook that sends prompt text anywhere.
@@ -61,7 +91,7 @@ const PROVIDER = (process.env.CONTEXT_GUARD_PROVIDER || "claude").toLowerCase();
 const CUSTOM_CMD = process.env.CONTEXT_GUARD_CMD || "";
 // Bounded below the hook's own timeout in hooks.json, or the hook is killed
 // mid-call and the subprocess timeout never fires.
-const CALL_TIMEOUT = Number(process.env.CONTEXT_GUARD_TIMEOUT) || 8000;
+const CALL_TIMEOUT = envPos("CONTEXT_GUARD_TIMEOUT", 8000);
 
 const PROVIDERS = {
   // Rides existing subscription auth — no API key needed.
@@ -307,6 +337,29 @@ function saveState(dir, file, state) {
   } catch {}
 }
 
+// One `<sid>.json` per session, plus a `<sid>.ctx.json` from the status line, and
+// nothing ever removed them. Swept on the first prompt of a session — the one
+// moment we already know is new, so this costs a readdir per session, not per
+// prompt. session-weight.json is excluded: it is the other hook's throttle, and
+// its whole job is to outlive sessions.
+const REAP_AFTER_MS = 7 * 24 * 3600 * 1000;
+function reap(dir) {
+  const cutoff = Date.now() - REAP_AFTER_MS;
+  let names;
+  try {
+    names = readdirSync(dir);
+  } catch {
+    return;
+  }
+  for (const name of names) {
+    if (!name.endsWith(".json") || name === "session-weight.json") continue;
+    try {
+      const path = join(dir, name);
+      if (statSync(path).mtimeMs < cutoff) unlinkSync(path);
+    } catch {}
+  }
+}
+
 function emit(msg, extraContext) {
   const out = { systemMessage: msg, suppressOutput: true };
   if (extraContext) {
@@ -336,6 +389,7 @@ function main() {
   const stateDir = GUARD_DIR;
   const sid = (input?.session_id || "unknown").replace(/[^a-zA-Z0-9_-]/g, "_");
   const stateFile = join(stateDir, `${sid}.json`);
+  if (!existsSync(stateFile)) reap(stateDir);
 
   // Prefer the authoritative context info the status line shares (correct
   // window per model, e.g. 1M). Fall back to transcript sum + WINDOW default.
