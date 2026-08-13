@@ -10,6 +10,7 @@ servers, versioned in one place and installed rather than scattered across `~/.c
 /plugin install writing@llm-toolbox
 /plugin install ui@llm-toolbox
 /plugin install harness@llm-toolbox
+/plugin install pairing@llm-toolbox
 ```
 
 On the machine where you develop this repo, add it by path instead so edits are live:
@@ -25,6 +26,7 @@ On the machine where you develop this repo, add it by path instead so edits are 
 | **writing** | Proofreading and adversarial review for long-form technical writing. `proofread` fixes mechanical errors without touching voice; `poke-holes` red-teams the argument before publishing. |
 | **ui** | UI, UX, and front-end design work. |
 | **harness** | Tunes how Claude Code itself runs. Two cost sensors: **context guard** warns when a session is filling its context window, looping, or has drifted off topic; **session weight** warns when your `CLAUDE.md` chain, its `@`-imports, or your skill descriptions are making *every* session start expensive — and names the file to trim. |
+| **pairing** | Collaboration protocols that split the work between you and Claude. `pair-tdd` runs ping-pong TDD: one side writes the test, the other makes it pass, and the file boundary is the role boundary. |
 
 Each is independently enable/disableable via `/plugin`.
 

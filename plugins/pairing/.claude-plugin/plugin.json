@@ -1,0 +1,9 @@
+{
+  "name": "pairing",
+  "description": "Collaboration protocols that divide work between the user and Claude — who holds which role, and what each side is forbidden to touch.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Matti Salokangas",
+    "email": "matti.salokangas@gmail.com"
+  }
+}

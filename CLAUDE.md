@@ -69,6 +69,9 @@ an absolute path. Hooks are the usual offender.
 - **harness** — modifies how Claude Code itself runs: context/cost control, session
   hygiene. Named for the layer it operates on, so future statusline/session tooling has an
   obvious home.
+- **pairing** — collaboration protocols: how work is divided between the user and Claude,
+  and what each side is forbidden to touch. Sliced by *working arrangement* rather than by
+  subject, so the skills here are mostly constraints.
 
 ## Working on this repo
 

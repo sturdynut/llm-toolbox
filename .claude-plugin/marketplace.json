@@ -24,6 +24,12 @@
       "description": "Tunes how Claude Code itself runs — context-window drift detection, cost control, session hygiene.",
       "source": "./plugins/harness",
       "category": "development"
+    },
+    {
+      "name": "pairing",
+      "description": "Collaboration protocols that divide work between the user and Claude — ping-pong TDD, role handoffs, and what each side is forbidden to touch.",
+      "source": "./plugins/pairing",
+      "category": "development"
     }
   ]
 }

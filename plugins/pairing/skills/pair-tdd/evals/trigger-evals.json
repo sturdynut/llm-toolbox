@@ -1,0 +1,20 @@
+[
+  {"query": "let's ping-pong this feature — i'll write the first test", "should_trigger": true},
+  {"query": "you write the tests, i'll implement. starting with the rate limiter in src/limiter.ts", "should_trigger": true},
+  {"query": "i'll write the test, you make it pass. don't touch my test file", "should_trigger": true},
+  {"query": "pair program with me on the csv parser. i want to drive the tests, you write the code", "should_trigger": true},
+  {"query": "here's my failing test for Bucket.refill — implement against it, leave the test alone", "should_trigger": true},
+  {"query": "let's do a strict red/green handoff on this. scaffold the test list first and we'll go one at a time", "should_trigger": true},
+  {"query": "swap — you take the tests now, i'll do the implementation for the next one", "should_trigger": true},
+  {"query": "can we tdd this together? you be the navigator on tests and i'll type the impl", "should_trigger": true},
+  {"query": "write unit tests for utils.ts", "should_trigger": false},
+  {"query": "add a test for the auth bug i just fixed", "should_trigger": false},
+  {"query": "write a test for the discount calculator and then implement it", "should_trigger": false},
+  {"query": "this test is failing in CI and i can't tell why — dig in and fix it", "should_trigger": false},
+  {"query": "set up vitest in this repo with coverage reporting", "should_trigger": false},
+  {"query": "our test suite takes 9 minutes, find the slow ones and speed them up", "should_trigger": false},
+  {"query": "review my test coverage and tell me what's untested", "should_trigger": false},
+  {"query": "refactor these tests, there's a ton of duplicated setup", "should_trigger": false},
+  {"query": "explain the difference between TDD and BDD for a blog post i'm writing", "should_trigger": false},
+  {"query": "can you pair with me on debugging this memory leak? i'll share what i've tried", "should_trigger": false}
+]
