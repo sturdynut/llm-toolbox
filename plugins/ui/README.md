@@ -9,25 +9,33 @@ UI, UX, and front-end design work.
 Context-aware UI critique and transformation. Runs a four-phase loop —
 **Context → Inspect → Critique → Change** — that reads what a product is trying to be
 *before* judging it, gathers evidence from the strongest surface it can actually reach
-(interactive browser → render-assisted → source-only), reports findings across four
+(interactive browser → render-assisted → source-only), reports findings across five
 categories, and defines a house style the team could apply to a screen it never saw.
 The Change phase is opt-in and verifies against the *same* inspection manifest it
 baselined with, so before/after claims are earned rather than asserted.
 
 The thesis: most generated UIs aren't ugly, they just all speak in the same **accent**.
 The specific tells shift era to era (candy-Duolingo → calm-sage); the phenomenon
-doesn't. So the four categories and scope layers are the durable spine, and the tell
-catalog in `references/` is explicitly held loosely.
+doesn't. So the five categories (Visual, Structural, Interaction, Content, Model) and the
+scope layers are the durable spine, and the tell catalog in `references/` is explicitly
+held loosely.
+
+`references/calibration-log.md` is why. It records what three coding agents actually built
+from one identical brief — including where this skill's own guidance turned out to be
+wrong. The "scan for blue/indigo" palette tell was falsified there (0 of 3 used it; two
+independently landed on the same deep teal), which is exactly the kind of aging the tell
+catalog is designed to survive. **Append to it** rather than rewriting it.
 
 ```
 skills/ui-house-style/
 ├── SKILL.md
 ├── references/critique-taxonomy.md   # category definitions, scope layers, tell catalog
-└── evals/trigger-evals.json          # 20 should/shouldn't-trigger cases
+├── references/calibration-log.md     # empirical runs; append, don't rewrite
+└── evals/trigger-evals.json          # 23 should/shouldn't-trigger cases
 ```
 
-**Editing the description?** Re-check it against `evals/trigger-evals.json` — 20 cases,
-10 that should fire and 10 that shouldn't. The negatives are the load-bearing half: an
+**Editing the description?** Re-check it against `evals/trigger-evals.json` — 23 cases,
+12 that should fire and 11 that shouldn't. The negatives are the load-bearing half: an
 accessibility audit, a Tailwind build failure, a from-scratch landing page, and
 "does this *code* look AI-written?" all sit close enough to trip a sloppy description.
 
