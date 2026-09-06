@@ -227,6 +227,30 @@ That path is machine-specific and does not travel with the plugin — it needs s
 hand on each machine, and it keeps working even when the plugin is disabled. Disabling
 `harness` turns off both hooks but leaves the status line running.
 
+## Session handoff
+
+`skills/session-handoff/`, invoked as `/harness:session-handoff [output-path]`. Where the
+two hooks *warn* that a session has grown expensive, this is what you run once they have.
+
+It extracts what only exists in the conversation — decisions and the alternatives they
+beat, dead ends and why they failed, verbatim user constraints, what is actually verified
+versus merely claimed, and the single next action — into
+`.claude/handoffs/<timestamp>-<slug>.md`, writes a companion `.primer.md`, and copies the
+primer to the clipboard via `scripts/clip.sh` (pbcopy → wl-copy → xclip → xsel →
+clip.exe). Paste it into a fresh session.
+
+The deliberate omission is anything the next session can read off disk. Code, file
+contents, and chronology are excluded by the skill; a handoff that summarizes the repo has
+spent tokens to save none. Every state claim is graded **verified / claimed / assumed**,
+because an ungraded "tests pass" is the one line that can cost the next session an hour.
+
+`disable-model-invocation: true` — it writes files and clobbers the clipboard, so it fires
+only when you ask for it. Claude can still suggest it by name when the context guard
+warns.
+
+You probably want `.claude/handoffs/` in `.gitignore`; the skill mentions this but never
+edits the file.
+
 ## Migration (done)
 
 Previously `~/.claude/hooks/context-guard.mjs` and `~/.claude/statusline.py`, wired by
