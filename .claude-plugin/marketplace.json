@@ -21,7 +21,7 @@
     },
     {
       "name": "harness",
-      "description": "Tunes how Claude Code itself runs — context-window drift detection, cost control, session hygiene.",
+      "description": "Session hygiene — extract a context window's decisions, dead ends, and verified state into a handoff, and prime the next session.",
       "source": "./plugins/harness",
       "category": "development"
     },

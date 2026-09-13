@@ -4,9 +4,9 @@ description: >-
   Extract what this context window knows — goal, decisions and their reasoning,
   dead ends, constraints, verified state, next action — into a durable markdown
   handoff file, then generate a primer prompt for a fresh session and copy it to
-  the clipboard. Use when the context window is filling up, when the context
-  guard warns about drift or fill, before /clear or a deliberate restart, or when
-  the user asks to save, checkpoint, or hand off the session.
+  the clipboard. Use when the context window is filling up, before /clear or a
+  deliberate restart, when a session has drifted to a new task, or when the user
+  asks to save, checkpoint, or hand off the session.
 disable-model-invocation: true
 argument-hint: "[output-path]"
 ---
