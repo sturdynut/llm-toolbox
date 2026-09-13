@@ -36,3 +36,24 @@ assigns the roles, or asks to swap — **not** on ordinary "add a test for this"
 which stay plain test writing. Each skill carries `evals/trigger-evals.json`; re-check the
 description against it after any edit, since the negatives are what keep a strict protocol
 from hijacking casual work.
+
+## brainstorm-to-spec
+
+`skills/brainstorm-to-spec/`, available to you and to Claude.
+
+A gated interview that turns a rough idea into a spec at `.claude/specs/<date>-<slug>/`,
+with any sketches, schemas, or payloads produced along the way in `artifacts/` beside it.
+
+Five phases, each with a completion criterion that has to be met before the next one
+starts: align on what's being built (including three or more non-goals), surface and kill
+assumptions and unknowns, define how you'll know it works, identify who it's for, then
+explicitly revisit the first three in light of the users.
+
+Two things make it a pairing skill rather than a planning one. The user holds the domain
+knowledge and Claude holds the process — so Claude proposes and the user corrects, rather
+than Claude asking open questions the user has to compose answers to. And the stated
+success condition is disagreement: a session where the user confirms everything has failed.
+The spec records where Claude's recommendation was overridden, and by whom.
+
+Verification comes *before* users on purpose. A bar written while thinking about the
+mechanism is honest; one written after picturing a happy user is marketing.

@@ -1,0 +1,22 @@
+[
+  {"query": "create a skill that formats my changelog entries", "should_trigger": true},
+  {"query": "turn what we just did into a skill so i don't have to re-explain it", "should_trigger": true},
+  {"query": "write a SKILL.md for the deploy checklist", "should_trigger": true},
+  {"query": "my proofread skill never fires when i ask it to. why?", "should_trigger": true},
+  {"query": "this skill keeps triggering on unrelated stuff, tighten it up", "should_trigger": true},
+  {"query": "should this be a skill or a hook?", "should_trigger": true},
+  {"query": "review this SKILL.md before i ship it", "should_trigger": true},
+  {"query": "scaffold a new skill in the writing plugin", "should_trigger": true},
+  {"query": "write some trigger evals for the pair-tdd skill", "should_trigger": true},
+  {"query": "the description on this skill is too vague, rewrite it", "should_trigger": true},
+  {"query": "use the proofread skill on my draft", "should_trigger": false},
+  {"query": "what skills do i have installed?", "should_trigger": false},
+  {"query": "install the writing plugin from my marketplace", "should_trigger": false},
+  {"query": "write a bash script that renames files by date", "should_trigger": false},
+  {"query": "add a UserPromptSubmit hook that logs my prompts", "should_trigger": false},
+  {"query": "build an MCP server for the tradingview api", "should_trigger": false},
+  {"query": "explain how progressive disclosure works in claude code", "should_trigger": false},
+  {"query": "refactor this python module into smaller functions", "should_trigger": false},
+  {"query": "update the README for this plugin", "should_trigger": false},
+  {"query": "teach me how to use claude code subagents", "should_trigger": false}
+]
