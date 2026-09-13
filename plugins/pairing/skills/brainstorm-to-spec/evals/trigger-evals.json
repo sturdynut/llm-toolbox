@@ -1,0 +1,22 @@
+[
+  {"query": "let's brainstorm a notifications system for the app", "should_trigger": true},
+  {"query": "i have a rough idea for a CLI that manages dotfiles, can we think it through", "should_trigger": true},
+  {"query": "help me shape this feature before i start building", "should_trigger": true},
+  {"query": "i want to scope out a billing revamp — not sure what i'm missing", "should_trigger": true},
+  {"query": "what am i not thinking about with this import feature?", "should_trigger": true},
+  {"query": "can we spec this out properly before i write any code", "should_trigger": true},
+  {"query": "half-formed idea: a dashboard that shows which skills actually get used. thoughts?", "should_trigger": true},
+  {"query": "let's talk through what an offline mode would even mean here", "should_trigger": true},
+  {"query": "i need to figure out who this tool is actually for and whether it's worth building", "should_trigger": true},
+  {"query": "walk me through the unknowns on this migration before we commit to it", "should_trigger": true},
+  {"query": "what's the difference between a hook and a skill?", "should_trigger": false},
+  {"query": "implement the notifications system we specced yesterday", "should_trigger": false},
+  {"query": "write a PRD from these bullet points i already decided on", "should_trigger": false},
+  {"query": "how should i structure this react component?", "should_trigger": false},
+  {"query": "review my architecture doc and tell me what's wrong with it", "should_trigger": false},
+  {"query": "give me five name ideas for this library", "should_trigger": false},
+  {"query": "debug why this import silently drops rows", "should_trigger": false},
+  {"query": "summarize what we decided in this conversation", "should_trigger": false},
+  {"query": "estimate how long the billing revamp will take", "should_trigger": false},
+  {"query": "refactor the user service into smaller modules", "should_trigger": false}
+]

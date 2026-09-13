@@ -30,6 +30,12 @@
       "description": "Collaboration protocols that divide work between the user and Claude — ping-pong TDD, role handoffs, and what each side is forbidden to touch.",
       "source": "./plugins/pairing",
       "category": "development"
+    },
+    {
+      "name": "authoring",
+      "description": "Tooling for building the marketplace itself — writing skills, placing them, and testing that they trigger.",
+      "source": "./plugins/authoring",
+      "category": "development"
     }
   ]
 }
