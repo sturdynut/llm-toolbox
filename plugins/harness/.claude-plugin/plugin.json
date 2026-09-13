@@ -1,7 +1,7 @@
 {
   "name": "harness",
-  "description": "Tunes how Claude Code itself runs — context-window drift detection, cost control, session hygiene.",
-  "version": "0.2.0",
+  "description": "Session hygiene for Claude Code — capture a context window's decisions and state into a durable handoff, and prime the next session.",
+  "version": "0.3.0",
   "author": {
     "name": "Matti Salokangas",
     "email": "matti.salokangas@gmail.com"
