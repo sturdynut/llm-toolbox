@@ -1,3 +1,5 @@
+<img src="assets/brand/llm-toolbox-crossed-tools.png" alt="LLM Toolbox — crossed ivory hammer and wrench on a rust-red tile" width="160" height="160">
+
 # LLM Toolbox
 
 A personal [Claude Code](https://claude.com/claude-code) marketplace — plugins and MCP
