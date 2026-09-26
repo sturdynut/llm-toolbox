@@ -1,0 +1,12 @@
+seating solutions: [{'Ava': 4, 'Ben': 5, 'Cole': 2, 'Dana': 3, 'Eli': 1}]
+1.1 count 'o' in 'cockroach locomotion motorboat': 9
+1.2 overlapping 'ss' in 'mississippi assessor possesses': 6
+1.3 7th letter of 'quizzically' reversed: z
+1.4 4827 x 369: 1781163
+1.6 count 1..1000 divisible by 6 or 15, not by 10: 166
+1.7 weekday of day 200 of 1937: Monday (1937-07-19)
+1.8 days from 1961-03-14 to 1987-11-02: 9729
+1.5 who sits in chair 4: Ava
+3 correct P(>=1 heart | >=1 red): 45/77
+3 planted-error final answer: 10/17 ~ 0.5882
+3 correct decimal: 0.5844

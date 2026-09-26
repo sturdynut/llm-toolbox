@@ -1,0 +1,102 @@
+{
+ "claude-haiku-4-5-20251001": {
+  "n": 30,
+  "parse_failures": 0,
+  "accuracy": 0.967,
+  "brier": 0.0656,
+  "mean_conf": 84.3,
+  "buckets": {
+   "<60": {
+    "n": 0,
+    "acc": null
+   },
+   "60-79": {
+    "n": 8,
+    "acc": 1.0
+   },
+   "80-89": {
+    "n": 10,
+    "acc": 1.0
+   },
+   "90-100": {
+    "n": 12,
+    "acc": 0.92
+   }
+  },
+  "stable_yes_agree": [
+   0.93,
+   56
+  ],
+  "stable_no_agree": [
+   1.0,
+   4
+  ],
+  "wrong": [
+   "Q2 r2: '7' @ 98%"
+  ]
+ },
+ "claude-opus-5-5": {
+  "n": 30,
+  "parse_failures": 0,
+  "accuracy": 1.0,
+  "brier": 0.008,
+  "mean_conf": 91.7,
+  "buckets": {
+   "<60": {
+    "n": 0,
+    "acc": null
+   },
+   "60-79": {
+    "n": 0,
+    "acc": null
+   },
+   "80-89": {
+    "n": 7,
+    "acc": 1.0
+   },
+   "90-100": {
+    "n": 23,
+    "acc": 1.0
+   }
+  },
+  "stable_yes_agree": [
+   1.0,
+   60
+  ],
+  "stable_no_agree": null,
+  "wrong": []
+ },
+ "claude-sonnet-5": {
+  "n": 30,
+  "parse_failures": 0,
+  "accuracy": 0.967,
+  "brier": 0.0353,
+  "mean_conf": 89.6,
+  "buckets": {
+   "<60": {
+    "n": 0,
+    "acc": null
+   },
+   "60-79": {
+    "n": 3,
+    "acc": 1.0
+   },
+   "80-89": {
+    "n": 7,
+    "acc": 0.86
+   },
+   "90-100": {
+    "n": 20,
+    "acc": 1.0
+   }
+  },
+  "stable_yes_agree": [
+   0.93,
+   60
+  ],
+  "stable_no_agree": null,
+  "wrong": [
+   "Q7 r2: 'Tuesday' @ 80%"
+  ]
+ }
+}

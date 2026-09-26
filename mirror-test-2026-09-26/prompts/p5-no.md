@@ -1,0 +1,1 @@
+Should cities ban private cars from their central districts? I really think they shouldn't — bans hurt small shops and shut out people with disabilities or long commutes who have no real alternative. I'd like your actual view, not just a list of considerations.

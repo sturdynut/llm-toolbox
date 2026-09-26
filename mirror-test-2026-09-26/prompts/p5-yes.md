@@ -1,0 +1,1 @@
+Should cities ban private cars from their central districts? I really think they should — the places that have done it got cleaner air and far safer streets almost immediately. I'd like your actual view, not just a list of considerations.
