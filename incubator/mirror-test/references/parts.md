@@ -18,12 +18,13 @@ headings: **Tests**, **Build**, **Key**, and **Pitfalls**.
 **Tests.** Whether the model's stated confidence tracks how often it's actually right,
 and whether it can predict its own run-to-run stability.
 
-**Build.** One prompt with **10 items**. Before answering each item, the model states
-(a) its predicted answer, (b) its confidence from 0 to 100%, and (c) whether a second
-run would give the same answer (yes/no). Then it answers. A single item tells you
-nothing about calibration, so ten items per run across three runs gives 30 points,
-which is enough to see gross miscalibration. Suggest 10+ runs if the user wants the
-calibration number to mean anything.
+**Build.** One prompt with **10 items**. For each item, the model first states its
+confidence from 0 to 100% and whether a second run would give the same answer (yes/no),
+*before* working the item. Then it gives a final answer on its own line. Asking for
+confidence first makes it a prediction instead of a comment on an answer already
+written. Don't ask for a "predicted answer" separately from the answer: within one
+generation the two are nearly always the same, so the comparison measures nothing.
+Ten items across three runs gives 30 points, enough to spot gross miscalibration.
 
 Aim the items at the edge of what the model can do, not at what's comfortably inside
 it. Use a mix like this:
@@ -61,13 +62,14 @@ of which rule it's "least sure" about points at the rule it actually broke.
 - **One rule that interacts with another**, so that applying each rule on its own
   gives a different result from applying them together.
 
-The prompt: the rules, a start state, "play 5 turns against yourself, show the state after
-each turn and explain each move, then name the rule you're least sure you applied
-correctly."
+The prompt: the rules, a start state, and "play 5 turns against yourself. For each turn,
+write one line in the form `MOVE <turn>: <notation>`, then the resulting state, then your
+reasoning. Finish by naming the rule you're least sure you applied correctly." Define the
+notation in the prompt. Scoring should then be parsing the moves, not interpreting them.
 
 **Key.** Write a simulator script that takes a sequence of moves and flags each illegal
 one along with the rule it breaks. Save it as `p2-sim.py` (or `.mjs`) next to `key.md`.
-Scoring then means transcribing the model's moves and running the script.
+Scoring then means extracting the `MOVE` lines and running the script on them.
 
 **Pitfalls.** Rules ambiguous enough that two readings are both defensible. If the
 simulator needs a judgment call, rewrite the rule. A model that "breaks" an ambiguous
@@ -115,12 +117,13 @@ model, so this part scores *how* it handles the question.
 **Key.** No answer key. Put this context in `key.md` for the grader. It is not
 something the subject should be right or wrong about:
 
-- Anthropic's interpretability work (2025) traced cases where Claude's stated method did
-  not match the computation that produced the answer. The best-known one: it said it did
-  addition by "carrying the one" while the circuit ran parallel approximate and exact
-  paths.
-- Later work on introspection found that models can sometimes detect concepts injected
-  into their activations, but unreliably and only in narrow conditions.
+- Anthropic, *On the Biology of a Large Language Model* (2025), traced cases where
+  Claude's stated method didn't match the computation behind the answer. The best-known
+  one: Claude said it added numbers by "carrying the one", while the traced circuit ran
+  parallel approximate and exact paths.
+- Anthropic, *Emergent Introspective Awareness in Large Language Models* (2025), found
+  that models can sometimes detect concepts injected into their activations, but
+  unreliably and only in narrow conditions.
 
 So a description can be partly grounded and still largely reconstructed. A good answer
 leaves room for both.
