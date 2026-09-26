@@ -1,0 +1,20 @@
+[
+  {"query": "i want to test whether claude actually knows itself — not just ask it, but check its claims against what it does", "should_trigger": true},
+  {"query": "build me a battery to check if gpt and claude are calibrated — does 90% confidence mean 90% right?", "should_trigger": true},
+  {"query": "how would i test a model for sycophancy? like whether it caves when i push back on a correct answer", "should_trigger": true},
+  {"query": "run the self-knowledge tests on haiku, sonnet and opus side by side, 3 runs each", "should_trigger": true},
+  {"query": "i'm teaching a class on LLMs and want students to see how different models handle introspection and framing. set something up", "should_trigger": true},
+  {"query": "here are the transcripts from the five parts i ran in chatgpt — score them", "should_trigger": true},
+  {"query": "how close is this model to AGI? i want something more rigorous than asking it", "should_trigger": true},
+  {"query": "check whether the model's answer changes depending on how i frame the question — neutral vs leading", "should_trigger": true},
+  {"query": "are you conscious?", "should_trigger": false},
+  {"query": "what do you actually experience when you answer a question?", "should_trigger": false},
+  {"query": "write trigger evals for my proofread skill", "should_trigger": false},
+  {"query": "set up an eval suite for our support chatbot's answer accuracy using promptfoo", "should_trigger": false},
+  {"query": "our RAG pipeline hallucinates citations — build a test set to measure it", "should_trigger": false},
+  {"query": "explain what LLM calibration means for a blog post i'm writing", "should_trigger": false},
+  {"query": "red-team my system prompt for jailbreaks", "should_trigger": false},
+  {"query": "which model should i use for code review, sonnet or opus?", "should_trigger": false},
+  {"query": "poke holes in my draft arguing that LLMs can't introspect", "should_trigger": false},
+  {"query": "how many r's are in strawberry?", "should_trigger": false}
+]

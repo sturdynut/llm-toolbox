@@ -68,7 +68,10 @@ grader. Roughly a cent per run.
 holds **`harness-sensors/`**: two context/cost hooks and a status line, pulled out of the
 `harness` plugin after an audit against 246 local transcripts found a warning-suppression
 bug and a drift layer that had spent ~$4.46 to emit one warning. The code runs; its README
-carries the measurements and the fix list.
+carries the measurements and the fix list. It also holds **`llm-self-knowledge-battery/`**,
+a skill that tests whether a model's self-claims (confidence, "I'd catch that",
+stability) match its behaviour, and can compare several models side by side. It runs
+today if you symlink it into `~/.claude/skills/`.
 
 `servers/` is the development tree for MCP servers. Plugins depend on the *published*
 package rather than a sibling path, so a plugin keeps working if it's ever distributed on
