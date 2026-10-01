@@ -24,3 +24,10 @@ fit any existing domain after that, *then* consider a new one.
   blind. It fits none of the current domains. The directory is a bare skill, so to use
   it before promotion, symlink it into place:
   `ln -s ~/Code/llm-toolbox/incubator/mirror-test ~/.claude/skills/`.
+
+- **`jev-router/`**: uses Jev (TypeSafe's typed-decision model) to pick which context
+  packs each prompt needs, and lists the skipped packs so Claude can read them.
+  Reading a skipped pack is logged as a miss. It also includes a calibration harness
+  that checks whether Jev's probabilities hold up on the questions the router asks.
+  So far it has been tested only against a local stub, not real Jev. Its README has
+  the run steps.

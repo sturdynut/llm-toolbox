@@ -1,0 +1,28 @@
+{
+  "description": "jev-router: before each prompt, Jev picks which context packs (.claude/context-packs/*.md) to inject; skipped packs are listed so Claude can read them, and reading one is logged as a miss for calibration. Inert in projects with no packs.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/context-select.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/note-miss.mjs\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "jev-router",
+  "private": true,
+  "type": "module",
+  "description": "Jev as a context router for Claude Code, and a harness to check whether its probabilities can be trusted.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}
